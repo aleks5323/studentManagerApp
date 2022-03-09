@@ -21,7 +21,7 @@
         <p>Преподаватель: <b>@Model.Teacher.Name</b></p>
         <p>Название учебной группы</p>
         <input type="hidden" name="groupId" value="@Model.Id" />
-        <input class="form-control" type="text" name="newGroupName" value="@Model.Name" />
+        <input class="form-control" type="text" name="newGroupName" value="@Model.Name" required/>
         <br />
         <input class="btn btn-primary" type="submit" value="Сохранить изменения" />
         <br />
