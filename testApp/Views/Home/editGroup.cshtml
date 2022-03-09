@@ -1,0 +1,50 @@
+﻿@model Group
+@{
+    ViewData["Title"] = "Редактировать учебную группу";
+}
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Редактировать группу</title>
+</head>
+<body>
+    <h3>Редактировать группу</h3>
+    <nav aria-label="breadcrumbs">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Учебные группы </a></li>
+            <li class="breadcrumb-item active" aria-current="page">Редактировать учебную группу</li>
+        </ol>
+    </nav>
+    <br />
+    <form method="post">
+        <p>Преподаватель: <b>@Model.Teacher.Name</b></p>
+        <p>Название учебной группы</p>
+        <input type="hidden" name="groupId" value="@Model.Id" />
+        <input class="form-control" type="text" name="newGroupName" value="@Model.Name" />
+        <br />
+        <input class="btn btn-primary" type="submit" value="Сохранить изменения" />
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Студент</th>
+                    <th scope="col">Организация</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Employee e in Model.Employees)
+                {
+                    <tr>
+                        <th scope="row">@e.Name</th>
+                        <td>@e.Org.Name</td>
+                        <td><a asp-controller="Home" asp-action="deleteStudent" asp-route-studentId="@e.Id" asp-route-groupId ="@Model.Id">удалить из группы</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form><br />
+    <a asp-controller="Home" asp-action="addStudent" asp-route-id="@Model.Id" class="btn btn-primary" role="button">Добавить студента</a>
+</body>
+</html>

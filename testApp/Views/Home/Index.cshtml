@@ -1,0 +1,42 @@
+﻿@model IEnumerable<testApp.Models.Group> 
+@{ 
+    ViewData["Title"] = "Список сотрудников";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Учебные группы</title>
+</head>
+<body>
+    <h3>Учебные группы</h3>
+    <p>Учебные группы</p>
+    <nav aria-label="breadcrumbs">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Учебные группы</li>
+        </ol>
+    </nav>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Преподаватель</th>
+                <th scope="col">Количество студентов</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var group in Model)
+            {
+<tr>
+    <th scope="row">@group.Name</th>
+    <td>@group.Teacher.Name</td>
+    <td>@group.Employees.Count()</td>
+    <td><a asp-controller="Home" asp-action="editGroup" asp-route-id="@group.Id">редактировать</a></td>
+</tr>}
+        </tbody>
+    </table>
+    <br />
+    <a asp-controller="Home" asp-action="createGroup" class="btn btn-primary" role="button">Создать группу</a>
+</body>
+</html>

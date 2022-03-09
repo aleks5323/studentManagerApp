@@ -1,0 +1,33 @@
+﻿@model IEnumerable<testApp.Models.Teacher>
+@{
+    ViewData["Title"] = "Создать группу";
+}
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Создать группу</title>
+</head>
+<body>
+    <h3>Создать группу</h3>
+    <nav aria-label="breadcrumbs">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Учебные группы </a></li>
+            <li class="breadcrumb-item active" aria-current="page">Создать учебную группу</li>
+        </ol>
+    </nav>
+    <br />
+    <form method="post">
+        <p>Преподаватель</p>
+        <select class="form-select" name="teacherId">
+            @foreach (var teacher in Model)
+            {
+                <option value="@teacher.Id">@teacher.Name</option>
+            }
+        </select>
+        <p>Назвение учебной группы</p>
+        <input class="form-control" type="text" name="groupName" /><br />
+        <input class="btn btn-primary" type="submit" value="Создать учебную группу" />
+    </form>
+</body>
+</html>

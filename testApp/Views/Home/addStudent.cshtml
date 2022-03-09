@@ -1,0 +1,71 @@
+﻿@model Group
+@{
+    ViewData["Title"] = "Добавить студента";
+}
+
+@section Scripts{
+    <script>
+        $(function () { getEmployeesByOrgId(); })
+        $("#orgId").change(function () {
+            getEmployeesByOrgId();
+        });
+
+        var getEmployeesByOrgId = function () {
+            $('#addStudentBtn').attr("disabled", false);
+            $.ajax({
+                url: '@Url.Action("getEmployeesByOrgId", "Home")',
+                type: 'GET',
+                data: {
+                    orgId: $('#orgId').val(),
+                    groupId: '@Url.ActionContext.RouteData.Values["id"]'
+                },
+                success: function (data) {
+                    $('#emp').find('option').remove()
+                    if (data.length != 0) {
+                        $(data).each(
+                            function (index, item) {
+                                $('#emp').append('<option value="' + item.id + '">' + item.name + '</option>')
+                            });
+                    }
+                    else {
+                        $('#emp').append('<option>Нет доступных работников</option>');
+                        $('#addStudentBtn').attr("disabled", true);
+                    }
+                },
+                error: function () { }
+            });
+        }
+    </script>
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Добавить студента</title>
+</head>
+<body>
+    <h3>Добавить студента в учебную группу</h3>
+    <nav aria-label="breadcrumbs">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Учебные группы </a></li>
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="editGroup" asp-route-id="@Model.Id">@Model.Name</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Добавить студента в учебную группу</li>
+        </ol>
+    </nav>
+    <p>Учебная группа: <b>@Model.Name</b></p>
+    <p>Преподаватель: <b>@Model.Teacher.Name</b></p>
+    <p>Организация</p>
+    <form name="fform" method="post">
+        <select class="form-select" name="orgId" id="orgId">
+            @foreach (var o in Model.Teacher.Organizations)
+            {
+                <option value="@o.Id">@o.Name</option>
+            }
+        </select>
+        <p>Сотрудник</p>
+        <select class="form-select" name="empId" id="emp"></select>
+        <br />
+        <input id="addStudentBtn" type="submit" class="btn btn-primary" role="button" value="Добавить студента в учебную группу" />
+    </form>
+</body>
+</html>
